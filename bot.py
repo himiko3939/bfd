@@ -82,7 +82,7 @@ async def run_requests(executor, token, max_workers):
 
 # Function for 1-hour countdown with moving display
 def countdown_one_hour():
-    total_seconds = 1800
+    total_seconds = 120
     while total_seconds:
         mins, secs = divmod(total_seconds, 60)
         timer = f'{mins:02d}:{secs:02d}'
