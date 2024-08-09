@@ -5,6 +5,13 @@ import threading
 import asyncio
 import random
 from concurrent.futures import ThreadPoolExecutor
+from colorama import Fore, Style, init
+
+# Initialize colorama
+init(autoreset=True)
+
+# Colors to be used
+colors = [Fore.GREEN, Fore.YELLOW, Fore.MAGENTA, Fore.CYAN, Fore.BLUE, Fore.RED]
 
 # Function to send a request
 def send_request(token):
@@ -34,11 +41,13 @@ def send_request(token):
     conn.request("POST", "/api?act=collectSpecialBoxCoin", payload, headers)
     res = conn.getresponse()
     data = json.loads(res.read().decode("utf-8"))
+
     if data["code"] == 0 and data["message"] == "Success":
         collect_amount = data["data"]["collectAmount"]
-        print(f"Collect amount: {collect_amount}")
+        color = random.choice(colors)
+        print(f"{color}Collect amount: {collect_amount}{Style.RESET_ALL}\n")
     else:
-        print("Failed to collect coins")
+        print(f"{Fore.RED}Failed to collect coins{Style.RESET_ALL}\n")
 
 # Function to get account info
 def get_account_info(token, max_workers):
@@ -70,7 +79,7 @@ def get_account_info(token, max_workers):
         f'  User Level    : {user_level}\n'
         f'  Tmount        : {format_amount(total_amount)}\n'
         f'  Cmount        : {format_amount(current_amount)}\n'
-        f'  Max Workers   : {max_workers}'
+        f'  Max Workers   : {max_workers}\n'
     )
 
 # Asynchronous function to run the requests
